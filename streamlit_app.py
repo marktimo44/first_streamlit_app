@@ -15,6 +15,6 @@ my_fruit_list = my_fruit_list.set_index('Fruit')
 st.multiselect("Pick some fruits:", list(my_fruit_list.index))
 
 # Display the table on the page.
-df = st.dataframe(my_fruit_list)
-df.write
+st.table(my_fruit_list)
+
 
