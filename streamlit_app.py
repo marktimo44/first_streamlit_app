@@ -8,6 +8,7 @@ st.text('🍟Bread Butty')
 st.header('🍌🥝Build your own smoothies🍍🍑')
 
 import pandas as pd
+pd.set_option('display.max_columns', None) 
 my_fruit_list = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 #my_fruit_list = my_fruit_list.set_index('Fruit')
 
