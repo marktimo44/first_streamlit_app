@@ -22,7 +22,6 @@ st.header("Fruityvice Fruit Advice!")
 
 import requests
 fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-st.text(fruityvice_response.json())
 
 # Flatten with header
 fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
