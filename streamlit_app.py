@@ -50,7 +50,7 @@ except URLError as e:
 
 #my_cur.execute("select * from fruit_load_list")
 
-def fruit_load_list():
+def get_fruit_load_list():
   with my_cnx.cursor() as my_cur:
     my_cur.execute("select * from fruit_load_list")
     return my_fetchall()
