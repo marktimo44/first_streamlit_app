@@ -22,6 +22,12 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 # Display the table on the page.
 st.table(fruits_to_show)
 
+def get_fruity_juice_data(fruit_choice)
+  fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+  # Flatten with header
+  fruityvice_normalized = pd.json_normalize(fruityvice_response.json())  
+  return fruityvice_normalized
+
 st.header("Fruityvice Fruit Advice!")
 try:
   fruit_choice = st.text_input('What fruit would you like information about?')
@@ -29,14 +35,13 @@ try:
      st.error("Please select a fruit to get information")
   else:
     st.write('The user entered ', fruit_choice)
-    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-    # Flatten with header
-    fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
+    back_from_function = get_fruity_juice_data(fruit_choice)
     # Write to table
-    st.dataframe(fruityvice_normalized)
+    st.dataframe(back_from_function)
 except URLError as e:
   st.error()
-    
+
+
 st.stop()
 
 my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
