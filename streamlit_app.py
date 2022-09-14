@@ -22,7 +22,7 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 # Display the table on the page.
 st.table(fruits_to_show)
 
-def get_fruity_juice_data(fruit_choice)
+def get_fruity_juice_data(fruit_choice):
   fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
   # Flatten with header
   fruityvice_normalized = pd.json_normalize(fruityvice_response.json())  
