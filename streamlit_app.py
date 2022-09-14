@@ -31,4 +31,4 @@ fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
 # Write to table
 st.dataframe(fruityvice_normalized)
 
-
+import snowflake.connector
