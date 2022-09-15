@@ -70,7 +70,7 @@ if st.button('Add a fruit to the list"'):
 
 st.stop()
 
---My deduced If stmt alternative
+# My deduced If stmt alternative
 # add_my_fruit = st.text_input('What fruit would you like to add?')
 # if add_my_fruit != "": 
 #  my_cur.execute("insert into fruit_load_list select '" + add_my_fruit + "'")
