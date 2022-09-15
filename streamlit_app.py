@@ -1,9 +1,29 @@
+# Imports -----------------------------------------------------------------------------------------------------
 import streamlit as st
 import pandas as pd
 import requests
 import snowflake.connector
 from urllib.error import URLError
 
+#Functions -----------------------------------------------------------------------------------------------------
+def get_fruity_juice_data(fruit_choice):
+  fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+  # Flatten with header
+  fruityvice_normalized = pd.json_normalize(fruityvice_response.json())  
+  return fruityvice_normalized
+
+def get_fruit_load_list():
+  with my_cnx.cursor() as my_cur:
+    my_cur.execute("select * from fruit_load_list")
+    return my_cur.fetchall()
+  
+def insert_row_snowflake(new_fruit):
+  with my_cnx.cursor() as my_cur:
+    my_cur.execute("Insert into fruit_load_list values ('" + new_fruit + "')")
+    return "Thanks for adding " + new_fruit
+
+#Body -----------------------------------------------------------------------------------------------------
+def get_fruity_juice_data(fruit_choice):
 st.title('My parents new healthy diner')
 st.header('Breakfast Menu')
 st.text('🥓Full English')
@@ -20,12 +40,6 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 # Display the table on the page.
 st.table(fruits_to_show)
 
-def get_fruity_juice_data(fruit_choice):
-  fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-  # Flatten with header
-  fruityvice_normalized = pd.json_normalize(fruityvice_response.json())  
-  return fruityvice_normalized
-
 st.header("Fruityvice Fruit Advice!")
 try:
   fruit_choice = st.text_input('What fruit would you like information about?')
@@ -39,25 +53,6 @@ try:
 except URLError as e:
   st.error()
 
-#my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
-#my_cur = my_cnx.cursor()
-#my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
-#my_data_row = my_cur.fetchone()
-#st.text("Hello from Snowflake:")
-#st.text(my_data_row)
-
-#my_cur.execute("select * from fruit_load_list")
-def get_fruit_load_list():
-  with my_cnx.cursor() as my_cur:
-    my_cur.execute("select * from fruit_load_list")
-    return my_cur.fetchall()
-  
-def insert_row_snowflake(new_fruit):
-  with my_cnx.cursor() as my_cur:
-    my_cur.execute("Insert into fruit_load_list values ('" + new_fruit + "')")
-    return "Thanks for adding " + new_fruit
-
-
 add_my_fruit = st.text_input('What fruit would you like to add?')  
 
 # Add a button to load the fruit
@@ -66,10 +61,7 @@ if st.button('Add a fruit to the list"'):
   back_from_function = insert_row_snowflake(add_my_fruit)
   st.text(back_from_function)
 
-
-
-
-
+#-------------------------------------------------------------------------------------------------------
 # My deduced If stmt alternative
 # add_my_fruit = st.text_input('What fruit would you like to add?')
 # if add_my_fruit != "": 
@@ -79,6 +71,7 @@ if st.button('Add a fruit to the list"'):
 #  my_data_row =  my_cur.fetchall()
 #  st.header("Fruit List Contains:")
 #  st.dataframe(my_data_row)
+#-------------------------------------------------------------------------------------------------------
 
 
 
