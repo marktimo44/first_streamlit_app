@@ -1,7 +1,7 @@
 import streamlit as st
+import pandas as pd
 import requests
 import snowflake.connector
-
 from urllib.error import URLError
 
 st.title('My parents new healthy diner')
@@ -10,8 +10,6 @@ st.text('🥓Full English')
 st.text('🍟Bread Butty')
 
 st.header('🍌🥝Build your own smoothies🍍🍑')
-
-import pandas as pd
 my_fruit_list = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 my_fruit_list = my_fruit_list.set_index('Fruit')
 
@@ -61,11 +59,12 @@ def insert_row_snowflake(new_fruit):
     return "Thanks for adding " + new_fruit
 
 add_my_fruit = st.text_input('What fruit would you like to add?')  
+
 # Add a button to load the fruit
 if st.button('Add a fruit to the list"'):
   my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
-  my_data_rows = get_fruit_load_list()
-  st.dataframe(my_data_rows)
+  back_from_function = insert_row_snowflake(add_my_fruit)
+  st.test(back_from_function)
 
 
 
@@ -75,14 +74,14 @@ st.stop()
 #st.header("Fruit List Contains:")
 #st.dataframe(my_data_row)
 
-add_my_fruit = st.text_input('What fruit would you like to add?')
-if add_my_fruit != "": 
-  my_cur.execute("insert into fruit_load_list select '" + add_my_fruit + "'")
-  st.text("Thanks for adding " + add_my_fruit)
-  my_cur.execute("select * from fruit_load_list")
-  my_data_row =  my_cur.fetchall()
-  st.header("Fruit List Contains:")
-  st.dataframe(my_data_row)
+#add_my_fruit = st.text_input('What fruit would you like to add?')
+#if add_my_fruit != "": 
+#  my_cur.execute("insert into fruit_load_list select '" + add_my_fruit + "'")
+#  st.text("Thanks for adding " + add_my_fruit)
+#  my_cur.execute("select * from fruit_load_list")
+#  my_data_row =  my_cur.fetchall()
+#  st.header("Fruit List Contains:")
+#  st.dataframe(my_data_row)
 
 
 
