@@ -48,6 +48,16 @@ except URLError as e:
 
 #my_cur.execute("select * from fruit_load_list")
 
+
+
+add_my_fruit = st.text_input('What fruit would you like to add?')  
+
+# Add a button to load the fruit
+if st.button('Add a fruit to the list"'):
+  my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
+  back_from_function = insert_row_snowflake(add_my_fruit)
+  st.text(back_from_function)
+
 def get_fruit_load_list():
   with my_cnx.cursor() as my_cur:
     my_cur.execute("select * from fruit_load_list")
@@ -58,17 +68,7 @@ def insert_row_snowflake(new_fruit):
     my_cur.execute("Insert into fruit_load_list values ('" + new_fruit + "')")
     return "Thanks for adding " + new_fruit
 
-add_my_fruit = st.text_input('What fruit would you like to add?')  
 
-# Add a button to load the fruit
-if st.button('Add a fruit to the list"'):
-  my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
-  back_from_function = insert_row_snowflake(add_my_fruit)
-  st.text(back_from_function)
-
-
-
-st.stop()
 
 # My deduced If stmt alternative
 # add_my_fruit = st.text_input('What fruit would you like to add?')
