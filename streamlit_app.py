@@ -55,7 +55,7 @@ def get_fruit_load_list():
   
 def insert_row_snowflake(new_fruit):
   with my_cnx.cursor() as my_cur:
-    my.cur.execute("Insert into fruit_load_list values ('" + new_fruit + "')")
+    my_cur.execute("Insert into fruit_load_list values ('" + new_fruit + "')")
     return "Thanks for adding " + new_fruit
 
 add_my_fruit = st.text_input('What fruit would you like to add?')  
@@ -70,12 +70,9 @@ if st.button('Add a fruit to the list"'):
 
 st.stop()
 
-#my_data_row =  my_cur.fetchall()
-#st.header("Fruit List Contains:")
-#st.dataframe(my_data_row)
-
-#add_my_fruit = st.text_input('What fruit would you like to add?')
-#if add_my_fruit != "": 
+--My deduced If stmt alternative
+# add_my_fruit = st.text_input('What fruit would you like to add?')
+# if add_my_fruit != "": 
 #  my_cur.execute("insert into fruit_load_list select '" + add_my_fruit + "'")
 #  st.text("Thanks for adding " + add_my_fruit)
 #  my_cur.execute("select * from fruit_load_list")
